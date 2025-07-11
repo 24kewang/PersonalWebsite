@@ -10,13 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-<<<<<<< HEAD
-=======
-    "@chakra-ui/react": "^2.10.9",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "framer-motion": "^12.23.3",
->>>>>>> 153182d205760bb1769b1de2699ef57549cff320
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
