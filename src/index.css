@@ -1,28 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-background: rgba(36, 36, 36, 1);
-  --font-display: "Satoshi", "sans-serif";
-  
+  --color-background: #ffffff; /* Background color for the page */
+  --color-foreground: #f0f8ff; /* Color for foreground containers*/
+  --color-header: #f0f8ffbf; /* Same color for foreground, just more transparent */
+  --color-primary: #4682b4; /* Primary color for headings */
+  --color-hover: #b0e0e6;
+  --color-secondary: #87ceeb; /* Secondary color for text */
+  /* Available font types for Dongle: font-light font-normal font-bold*/ 
+  --font-sans: Dongle, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+/* Primary font size to adjust for varying font default sizes */
+.font-primary {
+  @apply font-sans text-7xl;
+}
 /* Tailwind handles most resets and base styles, but you can add customizations below */
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(66, 57, 57, 0.87);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #7b7777;
   text-decoration: inherit;
 }
 a:hover {
@@ -32,7 +42,7 @@ a:hover {
 body {
   margin: 0;
   display: flex;
-  place-items: center;
+  place-items: top center;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -73,3 +83,4 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+*/
