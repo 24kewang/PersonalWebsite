@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Navbar />
-      <div className="flex pt-20 items-center justify-center gap-8 text-xl">
+      <div className="flex pt-8 items-center justify-center gap-8 text-xl">
         <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
           <img src={viteLogo} className="logo blur-sm" alt="Vite logo" />
         </a>

@@ -1,17 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap");
 @import "tailwindcss";
+@plugin './hero.ts';
+/* Note: You may need to change the path to fit your project structure */
+@source '../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}';
+@custom-variant dark (&:is(.dark *));
 
 @theme {
   --color-background: #ffffff; /* Background color for the page */
   --color-foreground: #f0f8ff; /* Color for foreground containers*/
   --color-header: #f0f8ffbf; /* Same color for foreground, just more transparent */
   --color-primary: #4682b4; /* Primary color for headings */
-  --color-hover: #b0e0e6;
+  --color-hover: #000000; /* Color for hover effects */
   --color-secondary: #87ceeb; /* Secondary color for text */
   /* Available font types for Dongle: font-light font-normal font-bold*/ 
   --font-sans: Dongle, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --heroui-primary-hover: #000000;
 }
 
+:root {
+  --heroui-primary-hover: #000000;
+}
+body {
+  --heroui-primary-hover: #000000;
+}
 
 h1 {
   @apply font-sans text-7xl;
