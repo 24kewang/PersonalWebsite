@@ -17,11 +17,8 @@
   --heroui-primary-hover: #000000;
 }
 
-:root {
-  --heroui-primary-hover: #000000;
-}
-body {
-  --heroui-primary-hover: #000000;
+html {
+  scroll-behavior: smooth;
 }
 
 h1 {

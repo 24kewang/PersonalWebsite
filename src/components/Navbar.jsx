@@ -9,6 +9,8 @@ import {
   NavbarMenuItem,
   Link,
   Button,
+  Tabs,
+  Tab,
 } from "@heroui/react";
 
 export const AcmeLogo = () => {
@@ -24,20 +26,26 @@ export const AcmeLogo = () => {
   );
 };
 
-export default function Nav() {
+export default function Nav(/*ONLY if using refs: {refs}*/) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [selected, setSelected] = React.useState("about");
+
+  const handleTabChange = (key) => {
+    setIsMenuOpen(false);
+    setSelected(key);
+    // If using refs
+    //refs[key]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const el = document.getElementById(key);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   const menuItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
+    "About",
+    "Experiences",
+    "Projects",
+    "Contact",
   ];
 
   return (
@@ -53,23 +61,20 @@ export default function Nav() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="primary" class="hover:text-hover" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link aria-current="page" href="#">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
+      <NavbarContent className="hidden sm:flex" justify="center">
+        <Tabs
+          aria-label="Navigation tabs"
+          variant="underlined"
+          selectedKey={selected}
+          onSelectionChange={setSelected}
+        >
+          <Tab key="About" title="About" href="#about"/>
+          <Tab key="Experiences" title="Experiences" />
+          <Tab key="Projects" title="Projects" />
+          <Tab key="Contact" title="Contact" />
+        </Tabs>
       </NavbarContent>
+
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
           <Link href="#">Login</Link>
@@ -80,15 +85,15 @@ export default function Nav() {
           </Button>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu>
+
+      <NavbarMenu className="w-1/4">
         {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
+          <NavbarMenuItem key={`${item}`}>
             <Link
               className="w-full"
-              color={
-                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-              }
-              href="#"
+              color="primary"
+              href={`#${item.toLowerCase()}`}
+              onClick={() => handleTabChange(item.toLowerCase())}
               size="lg"
             >
               {item}
@@ -99,4 +104,3 @@ export default function Nav() {
     </Navbar>
   );
 }
-
