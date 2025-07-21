@@ -1,4 +1,5 @@
-import React from "react";
+import {useState, useRef, useEffect} from "react";
+import clsx from "clsx";
 import {
   Navbar,
   NavbarBrand,
@@ -11,6 +12,7 @@ import {
   Button,
   Tabs,
   Tab,
+  menu,
 } from "@heroui/react";
 
 export const AcmeLogo = () => {
@@ -27,38 +29,62 @@ export const AcmeLogo = () => {
 };
 
 export default function Nav(/*ONLY if using refs: {refs}*/) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState("about");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selected, setSelected] = useState("About");
 
   const handleTabChange = (key) => {
     setIsMenuOpen(false);
     setSelected(key);
     // If using refs
     //refs[key]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    const el = document.getElementById(key);
+    const el = document.getElementById(key.toLowerCase());
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
+  // Refs for menu and navbar to handle outside click logic
+  const menuRef = useRef();
+  const navRef = useRef();
+
+  // Close menu when clicking outside -- for small screens only
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (
+        isMenuOpen &&
+        menuRef.current &&
+        !(menuRef.current.contains(event.target) || navRef.current.contains(event.target))
+      ) {
+        setIsMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, [isMenuOpen]);
+
+  // Override background scroll lock when menu is open
+  useEffect(() => {
+    document.documentElement.style.overflow = "auto";
+  }, [isMenuOpen]);
+
   const menuItems = [
     "About",
     "Experiences",
     "Projects",
-    "Contact",
   ];
 
   return (
-    <Navbar onMenuOpenChange={setIsMenuOpen}>
+    <Navbar className="fixed" ref={navRef} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
+          className="sm:hidden cursor-pointer"
         />
-        <NavbarBrand>
+        <Link className="font-bold text-inherit" href="#">
           <AcmeLogo />
-          <p className="font-bold text-inherit">ACME</p>
-        </NavbarBrand>
+          <p>Kevin Wang</p>
+        </Link>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex" justify="center">
@@ -66,34 +92,29 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
           aria-label="Navigation tabs"
           variant="underlined"
           selectedKey={selected}
-          onSelectionChange={setSelected}
+          onSelectionChange={handleTabChange}
         >
-          <Tab key="About" title="About" href="#about"/>
-          <Tab key="Experiences" title="Experiences" />
-          <Tab key="Projects" title="Projects" />
-          <Tab key="Contact" title="Contact" />
+          {menuItems.map((item) => (
+            <Tab key={item} title={item} />
+          ))}
         </Tabs>
       </NavbarContent>
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
-        </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
-            Sign Up
+          <Button as={Link} color="primary" href="#Contact" variant="flat">
+            Contact
           </Button>
         </NavbarItem>
       </NavbarContent>
-
-      <NavbarMenu className="w-1/4">
-        {menuItems.map((item, index) => (
+      <NavbarMenu ref={menuRef} className="w-1/4">
+        {menuItems.map((item) => (
           <NavbarMenuItem key={`${item}`}>
             <Link
-              className="w-full"
+              className={clsx("w-full text-lg", selected === item && "text-selected font-bold")}
               color="primary"
-              href={`#${item.toLowerCase()}`}
-              onClick={() => handleTabChange(item.toLowerCase())}
+              href={`#${item}`}
+              onClick={() => handleTabChange(item)}
               size="lg"
             >
               {item}

@@ -11,14 +11,16 @@
   --color-header: #f0f8ffbf; /* Same color for foreground, just more transparent */
   --color-primary: #4682b4; /* Primary color for headings */
   --color-hover: #000000; /* Color for hover effects */
+  --color-selected: #000000; /* Color for selected in Navbar mobile*/
   --color-secondary: #87ceeb; /* Secondary color for text */
   /* Available font types for Dongle: font-light font-normal font-bold*/ 
   --font-sans: Dongle, system-ui, Avenir, Helvetica, Arial, sans-serif;
   --heroui-primary-hover: #000000;
 }
 
-html {
+html, body {
   scroll-behavior: smooth;
+  overflow: auto;
 }
 
 h1 {
