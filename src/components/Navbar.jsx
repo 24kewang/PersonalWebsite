@@ -97,7 +97,7 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
           onSelectionChange={handleTabChange}
         >
           {menuItems.map((item) => (
-            <Tab key={item} title={item} className="var(--color-primary)" />
+            <Tab key={item} title={item} className="text-primary" />
           ))}
         </Tabs>
       </NavbarContent>

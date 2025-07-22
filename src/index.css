@@ -20,6 +20,11 @@
   --heroui-primary-hover: #000000;
 }
 
+/* force push colors */
+* {
+  @apply text-primary
+}
+
 html {
   overflow: auto;
   scroll-behavior: smooth;
