@@ -1,5 +1,6 @@
 import {useState, useRef, useEffect} from "react";
 import clsx from "clsx";
+
 import {
   Navbar,
   NavbarBrand,
@@ -14,6 +15,7 @@ import {
   Tab,
   menu,
 } from "@heroui/react";
+
 
 export const AcmeLogo = () => {
   return (
@@ -37,7 +39,7 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
     setSelected(key);
     // If using refs
     //refs[key]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    const el = document.getElementById(key.toLowerCase());
+    const el = document.getElementById(key);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
@@ -95,7 +97,7 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
           onSelectionChange={handleTabChange}
         >
           {menuItems.map((item) => (
-            <Tab key={item} title={item} />
+            <Tab key={item} title={item} className="var(--color-primary)" />
           ))}
         </Tabs>
       </NavbarContent>
@@ -111,7 +113,7 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
         {menuItems.map((item) => (
           <NavbarMenuItem key={`${item}`}>
             <Link
-              className={clsx("w-full text-lg", selected === item && "text-selected font-bold")}
+              className={clsx("w-full", selected === item && "text-selected font-bold")}
               color="primary"
               href={`#${item}`}
               onClick={() => handleTabChange(item)}
