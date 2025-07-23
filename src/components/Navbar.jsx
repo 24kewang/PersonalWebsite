@@ -32,8 +32,20 @@ export const AcmeLogo = () => {
 
 export default function Nav(/*ONLY if using refs: {refs}*/) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [selected, setSelected] = useState("About");
+  const [selected, setSelected] = useState("");
 
+  // Scroll to section on initial load if user already selected one
+  useEffect(() => {
+    if (window.location.hash) {
+      const el = document.getElementById(window.location.hash.substring(1)); // Get hash without the #
+      setSelected(window.location.hash.substring(1));
+      if(el){
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  }, []); // Run only once after initial mount
+
+  // Handle tab change and scroll into view
   const handleTabChange = (key) => {
     setIsMenuOpen(false);
     setSelected(key);
@@ -42,6 +54,7 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
     const el = document.getElementById(key);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.history.pushState('', document.title, '#' + key); // Manually reset URL
     }
   };
 
@@ -77,13 +90,19 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
   ];
 
   return (
-    <Navbar className="fixed" ref={navRef} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
+    <Navbar className="fixed navbar-custom" ref={navRef} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden cursor-pointer"
         />
-        <Link className="font-bold text-inherit" href="#">
+        <Link className="font-bold text-inherit" href=""
+          onClick={((e) => {
+            e.preventDefault();
+            window.scrollTo(0, 0);
+            setSelected(""); // Reset selected tab
+            window.history.pushState('', document.title, '/'); // Manually reset URL
+          })}>
           <AcmeLogo />
           <p>Kevin Wang</p>
         </Link>
@@ -95,10 +114,6 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
           variant="underlined"
           selectedKey={selected}
           onSelectionChange={handleTabChange}
-          classNames={{
-            tab: "text-primary data-[selected=true]:text-selected data-[hover=true]:text-hover",
-            tabContent: "text-primary data-[selected=true]:text-primary"
-          }}
         >
           {menuItems.map((item) => (
             <Tab key={item} title={item} />
@@ -113,11 +128,16 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
           </Button>
         </NavbarItem>
       </NavbarContent>
-      <NavbarMenu ref={menuRef} className="w-1/4">
+      <NavbarMenu 
+        ref={menuRef} 
+        classNames={
+          "h-auto gap-5 pl-6 pr-0 mt-2 !w-auto !h-auto !inset-x-auto !bottom-auto !right-0 !left-auto !top-[var(--navbar-height)] !max-w-none min-w-fit !p-4 !gap-1"
+        }
+      >
         {menuItems.map((item) => (
           <NavbarMenuItem key={`${item}`}>
             <Link
-              className={clsx("w-full", selected === item && "text-selected font-bold")}
+              className={clsx("navbarmenu-text-size w-full", selected === item && "text-selected font-bold")}
               color="primary"
               href={`#${item}`}
               onClick={() => handleTabChange(item)}

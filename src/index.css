@@ -6,11 +6,15 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-*: initial;
+  /*--color-*: initial;*/
+
+  --heroui-*: initial;
+  --color-primary: #4682b4; /* Primary color for headings */
+  
   --color-background: #ffffff; /* Background color for the page */
   --color-foreground: #ff0000; /* Color for foreground containers*/
   --color-header: #f0f8ffbf; /* Same color for foreground, just more transparent */
-  --color-primary: #4682b4; /* Primary color for headings */
+  
   --color-hover: #000000; /* Color for hover effects */
   --color-selected: #000000; /* Color for selected in Navbar mobile*/
   --color-secondary: #87ceeb; /* Secondary color for text */
@@ -18,6 +22,27 @@
   --font-sans: Dongle, system-ui, sans-serif;
   --heroui-primary: #4682b4; /* Primary color for HeroUI components */
   --heroui-primary-hover: #000000;
+}
+
+.font-primary {
+  @apply font-sans text-3xl;
+}
+
+/* Customizing Navbar color overrides for larger screens 
+
+Uses @apply and color: for redundancy
+
+*/
+
+.navbar-custom {
+  @apply h-15;
+  --heroui-font-size-small: var(--text-lg);
+}
+.navbarmenu-text-size {
+  @apply text-2xl;
+}
+[data-slot="tabList"] [data-slot="tab"][data-selected="true"] [data-slot="cursor"] {
+  background-color: var(--color-selected);
 }
 
 [data-slot="tabList"] [data-slot="tab"] [data-slot="tabContent"] {
@@ -35,6 +60,8 @@
   color: var(--color-hover);
 }
 
+
+/* Rest of css */
 
 html {
   overflow: auto;

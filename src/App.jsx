@@ -1,6 +1,7 @@
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Navbar from './components/Navbar';
+import { HeroUIProvider } from '@heroui/react';
 // import { useNavigate, useHref, Routes, Route } from "react-router-dom";
 
 
@@ -19,7 +20,7 @@ function App() {
   return (
     <>
     {/* <HeroUIProvider navigate={navigate} useHref={href}> */}
-      
+      <HeroUIProvider>
         <Navbar />
         {/*refs={{
           about: aboutRef,
@@ -41,7 +42,7 @@ function App() {
         - Use "scroll-mt-20" to adjust scroll position for fixed navbar
         */}
 
-        <h1 id="About" className="text-center scroll-mt-20">Vite + React</h1>
+        <h1 id="About" className="text-center scroll-mt-15">Vite + React</h1>
         <h2 className="text-center text-secondary">Click on the logos to learn more</h2>
         <div id="Projects" className="card flex h-1000 flex-col items-center scroll-mt-20">
           <button
@@ -56,8 +57,7 @@ function App() {
         <p id="Contact" className="read-the-docs text-center scroll-mt-20">
           Click on the Vite and React logos to learn more
         </p>
-        
-      
+      </HeroUIProvider>
     </>
   )
 }
