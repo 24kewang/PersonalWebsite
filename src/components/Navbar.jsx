@@ -95,9 +95,13 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
           variant="underlined"
           selectedKey={selected}
           onSelectionChange={handleTabChange}
+          classNames={{
+            tab: "text-primary data-[selected=true]:text-selected data-[hover=true]:text-hover",
+            tabContent: "text-primary data-[selected=true]:text-primary"
+          }}
         >
           {menuItems.map((item) => (
-            <Tab key={item} title={item} className="text-primary" />
+            <Tab key={item} title={item} />
           ))}
         </Tabs>
       </NavbarContent>

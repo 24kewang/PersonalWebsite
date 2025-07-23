@@ -8,7 +8,7 @@
 @theme {
   --color-*: initial;
   --color-background: #ffffff; /* Background color for the page */
-  --color-foreground: #f0f8ff; /* Color for foreground containers*/
+  --color-foreground: #ff0000; /* Color for foreground containers*/
   --color-header: #f0f8ffbf; /* Same color for foreground, just more transparent */
   --color-primary: #4682b4; /* Primary color for headings */
   --color-hover: #000000; /* Color for hover effects */
@@ -20,10 +20,21 @@
   --heroui-primary-hover: #000000;
 }
 
-/* force push colors */
-* {
-  @apply text-primary
+[data-slot="tabList"] [data-slot="tab"] [data-slot="tabContent"] {
+  @apply text-primary;
+  color: var(--color-primary);
 }
+
+[data-slot="tabList"] [data-slot="tab"][data-selected="true"] [data-slot="tabContent"] {
+  @apply text-selected;
+  color: var(--color-selected);
+}
+
+[data-slot="tabList"] [data-slot="tab"]:hover [data-slot="tabContent"] {
+  @apply text-hover;
+  color: var(--color-hover);
+}
+
 
 html {
   overflow: auto;
