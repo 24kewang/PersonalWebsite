@@ -6,22 +6,21 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  /*--color-*: initial;*/
-
-  --heroui-*: initial;
+  /* --color-*: initial;
+  --heroui-*: initial; */
   --color-primary: #4682b4; /* Primary color for headings */
-  
+
+  --color-logo: rgb(20, 35, 96); /* Color for logo */
+
   --color-background: #ffffff; /* Background color for the page */
   --color-foreground: #ff0000; /* Color for foreground containers*/
-  --color-header: #f0f8ffbf; /* Same color for foreground, just more transparent */
+  --color-header: #f0f8ffff; /* Same color for foreground, just more transparent */
   
   --color-hover: #000000; /* Color for hover effects */
   --color-selected: #000000; /* Color for selected in Navbar mobile*/
   --color-secondary: #87ceeb; /* Secondary color for text */
   /* Available font types for Dongle: font-light font-normal font-bold*/ 
   --font-sans: Dongle, system-ui, sans-serif;
-  --heroui-primary: #4682b4; /* Primary color for HeroUI components */
-  --heroui-primary-hover: #000000;
 }
 
 .font-primary {
@@ -35,13 +34,21 @@ Uses @apply and color: for redundancy
 */
 
 .navbar-custom {
-  @apply h-15;
-  --heroui-font-size-small: var(--text-lg);
+  @apply backdrop-blur-md bg-header;
+  --navbar-height: 4rem !important;
+  /* If this doesn't work, add !text-xl to className of tabs */
+  --heroui-font-size-small: var(--text-xl);
 }
+.navbar-custom[data-menu-open="true"] {
+  @apply backdrop-blur-lg; /* Different blur when menu is open */
+}
+
 .navbarmenu-text-size {
   @apply text-2xl;
 }
+
 [data-slot="tabList"] [data-slot="tab"][data-selected="true"] [data-slot="cursor"] {
+  @apply bg-selected;
   background-color: var(--color-selected);
 }
 

@@ -1,6 +1,6 @@
 import {useState, useRef, useEffect} from "react";
 import clsx from "clsx";
-
+import { flushSync } from 'react-dom';
 import {
   Navbar,
   NavbarBrand,
@@ -37,25 +37,33 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
   // Scroll to section on initial load if user already selected one
   useEffect(() => {
     if (window.location.hash) {
-      const el = document.getElementById(window.location.hash.substring(1)); // Get hash without the #
-      setSelected(window.location.hash.substring(1));
-      if(el){
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
+      handleTabChange(window.location.hash.substring(1)); // get the hash without the #
     }
   }, []); // Run only once after initial mount
 
   // Handle tab change and scroll into view
   const handleTabChange = (key) => {
-    setIsMenuOpen(false);
-    setSelected(key);
-    // If using refs
-    //refs[key]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Force immediate render of updated tab -- mainly for mobile menu display before menu disappears
+    flushSync(() => {
+      setSelected(key); // Force immediate render
+    });
     const el = document.getElementById(key);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
       window.history.pushState('', document.title, '#' + key); // Manually reset URL
     }
+    setIsMenuOpen(false);
+    // If using refs
+    //refs[key]?.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    
+  };
+
+  // Handle logo click to scroll to top and reset selected tab
+  const handleLogoClick = (e) => {
+    e.preventDefault();
+    window.scrollTo(0, 0);
+    setSelected(""); // Reset selected tab
+    window.history.pushState('', document.title, '/'); // Manually reset URL
   };
 
   // Refs for menu and navbar to handle outside click logic
@@ -90,19 +98,15 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
   ];
 
   return (
-    <Navbar className="fixed navbar-custom" ref={navRef} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
+    // Navbar height can be set as such or via CSS override (which centralizes control in index.css)
+    <Navbar /* height="2rem" */ className="fixed navbar-custom" ref={navRef} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden cursor-pointer"
         />
-        <Link className="font-bold text-inherit" href=""
-          onClick={((e) => {
-            e.preventDefault();
-            window.scrollTo(0, 0);
-            setSelected(""); // Reset selected tab
-            window.history.pushState('', document.title, '/'); // Manually reset URL
-          })}>
+        <Link className="font-bold text-logo" href=""
+          onClick={handleLogoClick}>
           <AcmeLogo />
           <p>Kevin Wang</p>
         </Link>
@@ -130,14 +134,12 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
       </NavbarContent>
       <NavbarMenu 
         ref={menuRef} 
-        classNames={
-          "h-auto gap-5 pl-6 pr-0 mt-2 !w-auto !h-auto !inset-x-auto !bottom-auto !right-0 !left-auto !top-[var(--navbar-height)] !max-w-none min-w-fit !p-4 !gap-1"
-        }
+        className="!w-fit !max-h-fit !overflow-hidden !p-5 backdrop-blur-md bg-header"
       >
         {menuItems.map((item) => (
           <NavbarMenuItem key={`${item}`}>
             <Link
-              className={clsx("navbarmenu-text-size w-full", selected === item && "text-selected font-bold")}
+              className={clsx("navbarmenu-text-size", selected === item && "text-selected font-bold")}
               color="primary"
               href={`#${item}`}
               onClick={() => handleTabChange(item)}
