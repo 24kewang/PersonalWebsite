@@ -32,24 +32,15 @@ function App() {
         
         {/* Header Section */}
         <Header />
-        
-        <div className="flex pt-15 items-center justify-center gap-8 text-xl">
-          <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
-            <img src={viteLogo} className="logo blur-sm" alt="Vite logo" />
-          </a>
-          <a href="https://react.dev" target="_blank" rel="noopener noreferrer">
-            <img src={reactLogo} className="logo react animate-spin" alt="React logo" />
-          </a>
-        </div>
         {/*
         Note for sections:
         - Include "Name" in the id matching those in Navbar
         - Use "scroll-mt-20" to adjust scroll position for fixed navbar
         */}
 
-        <h1 id="About" className="text-center scroll-mt-15">Vite + React</h1>
+        <h1 id="About" className="text-center scroll-mt-21">Vite + React</h1>
         <h2 className="text-center text-secondary">Click on the logos to learn more</h2>
-        <div id="Projects" className="card flex h-1000 flex-col items-center scroll-mt-20">
+        <div className="card flex h-1000 flex-col items-center scroll-mt-20">
           <button
             className="px-4 py-2 mt-4 mb-2 bg-background text-white rounded hover:bg-blue-600 transition"
           >
@@ -59,7 +50,7 @@ function App() {
             Edit <code class="text-base">src/App.jsx</code> and save to test HMR
           </p>
         </div>
-        <p id="Contact" className="read-the-docs text-center scroll-mt-20">
+        <p id="Projects" className="read-the-docs text-center scroll-mt-20">
           Click on the Vite and React logos to learn more
         </p>
       </HeroUIProvider>

@@ -10,12 +10,12 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   Link,
-  Button,
   Tabs,
   Tab,
   menu,
   Progress,
 } from "@heroui/react";
+import ContactButton from "./ContactButton.jsx";
 
 
 export const Logo = () => {
@@ -142,9 +142,9 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
   ];
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50">
+    <div className="fixed top-0 left-0 right-0 z-50" ref={navRef}>
     {/* Navbar height can be set as such or via CSS override (which centralizes control in index.css) */}
-    <Navbar /* height="2rem" */ className="navbar-custom" ref={navRef} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
+    <Navbar /* height="2rem" */ className="navbar-custom" onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -171,9 +171,7 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
 
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} color="primary" href="#Contact" variant="flat">
-            Contact
-          </Button>
+          <ContactButton />
         </NavbarItem>
       </NavbarContent>
       <NavbarMenu 
