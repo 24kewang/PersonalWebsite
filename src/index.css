@@ -9,15 +9,22 @@
   /* --color-*: initial;
   --heroui-*: initial; */
   --color-primary: #4682b4; /* Primary color for headings */
+  --color-secondary: #c86565ff; /* Secondary color for text */
 
   --color-logo: rgb(20, 35, 96); /* Color for logo */
 
+  --color-navbar: #f0f8ffbb; /* Used for navbar and navbarmenu, slightly transparent for blur*/
+
+
+  /* --color-title: #f0f8ff; /* Color for h1 */
+  /*--color-subtitle: var(--color-secondary); /* Color for h2 */
+
   --color-background: #ffffff; /* Background color for the page */
-  --color-foreground: #ff0000; /* Color for foreground containers*/
-  --color-header: #f0f8ffff; /* Same color for foreground, just more transparent */
-  
-  --color-hover: #000000; /* Color for hover effects */
-  --color-selected: #000000; /* Color for selected in Navbar mobile*/
+  --color-foreground: #060810ff; /* Color for foreground containers*/
+
+  --scroll-progress-width: 9%; /* Width of the scroll progress bar */
+  --color-hover: #c86565ff; /* Color for hover effects */
+  --color-selected: #c86565ff; /* Color for selected in Navbar*/
   --color-secondary: #87ceeb; /* Secondary color for text */
   /* Available font types for Dongle: font-light font-normal font-bold*/ 
   --font-sans: Dongle, system-ui, sans-serif;
@@ -33,17 +40,34 @@ Uses @apply and color: for redundancy
 
 */
 
+.logo {
+  @apply text-logo text-2xl;
+}
+
+/* Custom scroll progress bar behavior to sync well with scroll position
+Uses scroll-progress-width, which is set by eventHandler in Navbar */
+.scroll-progress {
+  /* transition: none !important; */
+  /* animation: none !important; */
+  transform: none !important;
+  width: var(--scroll-progress-width, 0%);
+}
+
 .navbar-custom {
-  @apply backdrop-blur-md bg-header;
+  @apply backdrop-blur-md bg-navbar py-1 pb-2;
   --navbar-height: 4rem !important;
   /* If this doesn't work, add !text-xl to className of tabs */
   --heroui-font-size-small: var(--text-xl);
 }
 .navbar-custom[data-menu-open="true"] {
-  @apply backdrop-blur-lg; /* Different blur when menu is open */
+  @apply !backdrop-blur-lg; /* Different blur when menu is open */
 }
 
-.navbarmenu-text-size {
+.navbar-menu-custom {
+  @apply !w-fit !max-h-fit !overflow-hidden p-5 pt-7 backdrop-blur-sm bg-navbar;
+}
+
+.navbar-menu-text-size {
   @apply text-2xl;
 }
 
@@ -68,21 +92,32 @@ Uses @apply and color: for redundancy
 }
 
 
-/* Rest of css */
+/* Header styles */
 
+name {
+  @apply text-7xl md:text-8xl lg:text-[7rem] xl:text-9xl 2xl:text-[10rem] font-bold text-logo;
+}
+
+
+/* REST OF CSS */
+
+/* All elements must set their custom margins and paddings */
 html {
   overflow: auto;
   scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
 }
 
+
 h1 {
-  @apply font-sans text-7xl;
+  @apply text-6xl md:text-7xl 2xl:text-8xl font-bold text-primary;
 }
 h2 {
-  @apply font-sans text-4xl;
+  @apply text-4xl md:text-5xl 2xl:text-6xl font-normal text-secondary;
 }
 h3 {
-  @apply font-sans text-2xl;
+  @apply text-6xl md:text-7xl 2xl:text-8xl font-normal text-secondary;
 }
 /* Tailwind handles most resets and base styles, but you can add customizations below */
 

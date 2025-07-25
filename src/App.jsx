@@ -1,6 +1,7 @@
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import Navbar from './components/Navbar';
+import Header from './components/Header';
 import { HeroUIProvider } from '@heroui/react';
 // import { useNavigate, useHref, Routes, Route } from "react-router-dom";
 
@@ -28,6 +29,10 @@ function App() {
           projects: projectsRef,
           contact: contactRef
         }}*/}
+        
+        {/* Header Section */}
+        <Header />
+        
         <div className="flex pt-15 items-center justify-center gap-8 text-xl">
           <a href="https://vite.dev" target="_blank" rel="noopener noreferrer">
             <img src={viteLogo} className="logo blur-sm" alt="Vite logo" />

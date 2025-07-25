@@ -14,25 +14,69 @@ import {
   Tabs,
   Tab,
   menu,
+  Progress,
 } from "@heroui/react";
 
 
-export const AcmeLogo = () => {
+export const Logo = () => {
   return (
-    <svg fill="none" height="36" viewBox="0 0 32 32" width="36">
-      <path
-        clipRule="evenodd"
-        d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
-        fill="currentColor"
-        fillRule="evenodd"
-      />
-    </svg>
+    <svg fill="none" height="36" viewBox="0 0 64 32" width="72" xmlns="http://www.w3.org/2000/svg">
+  <path
+    fill="currentColor"
+    d="
+      M7 4 H11 V28 H7 V4 Z
+      M11 16 L20 28 H24 L15 17 L24 4 H20 L11 16 Z
+    "
+  />
+  <path
+    fill="currentColor"
+    d="
+      M32 2 L32 4 L38 24 L42 4 L46 28 H42 L38 10 L34 28 H32 Z
+    "
+  />
+</svg>
+
+
+
+
+
   );
 };
 
 export default function Nav(/*ONLY if using refs: {refs}*/) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selected, setSelected] = useState("");
+
+  // Scroll progress calculation
+
+  // Below uses HeroUI native Progress logic, which has delay
+
+  // const [scrollProgress, setScrollProgress] = useState(0);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollTop = window.scrollY;
+  //     const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  //     const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  //     setScrollProgress(Math.min(100, Math.max(0, scrollPercent)));
+  //   };
+
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
+
+  // Native scroll progress calculation without delay, uses recurring event listener
+  const handleScroll = () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.body.style.setProperty('--scroll-progress-width', `${progress}%`);
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  // Set once initially (in case already scrolled)
+  // handleScroll();
+
+
 
   // Scroll to section on initial load if user already selected one
   useEffect(() => {
@@ -98,17 +142,17 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
   ];
 
   return (
-    // Navbar height can be set as such or via CSS override (which centralizes control in index.css)
-    <Navbar /* height="2rem" */ className="fixed navbar-custom" ref={navRef} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
+    <div className="fixed top-0 left-0 right-0 z-50">
+    {/* Navbar height can be set as such or via CSS override (which centralizes control in index.css) */}
+    <Navbar /* height="2rem" */ className="navbar-custom" ref={navRef} onMenuOpenChange={setIsMenuOpen} isMenuOpen={isMenuOpen}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden cursor-pointer"
         />
-        <Link className="font-bold text-logo" href=""
+        <Link className="font-bold logo" href=""
           onClick={handleLogoClick}>
-          <AcmeLogo />
-          <p>Kevin Wang</p>
+          <Logo />
         </Link>
       </NavbarContent>
 
@@ -134,12 +178,12 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
       </NavbarContent>
       <NavbarMenu 
         ref={menuRef} 
-        className="!w-fit !max-h-fit !overflow-hidden !p-5 backdrop-blur-md bg-header"
+        className="navbar-menu-custom"
       >
         {menuItems.map((item) => (
           <NavbarMenuItem key={`${item}`}>
             <Link
-              className={clsx("navbarmenu-text-size", selected === item && "text-selected font-bold")}
+              className={clsx("navbar-menu-text-size", selected === item && "text-selected font-bold")}
               color="primary"
               href={`#${item}`}
               onClick={() => handleTabChange(item)}
@@ -151,5 +195,16 @@ export default function Nav(/*ONLY if using refs: {refs}*/) {
         ))}
       </NavbarMenu>
     </Navbar>
+    <Progress
+        // value={scrollProgress}
+        className="absolute bottom-0 left-0 right-0 z-51"
+        classNames={{
+          base: "w-full",
+          track: "bg-transparent",
+          indicator: "scroll-progress absolute bottom-0 left-0 right-0 bg-primary h-1"
+        }}
+        aria-label="Page scroll progress"
+    />
+    </div>
   );
 }
